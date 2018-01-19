@@ -1,0 +1,13 @@
+platform :ios, '7.0'
+
+target 'ProjectFramework' do
+# 人脸登录
+pod "SuperID"
+#刷新
+pod 'MJRefresh', '~> 3.1.15.1'
+
+
+
+
+
+end

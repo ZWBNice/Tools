@@ -1,0 +1,22 @@
+//
+//  WBPrefixHeader.pch
+//  ProjectFramework
+//
+//  Created by RC025 on 17/3/23.
+//  Copyright © 2017年 WB. All rights reserved.
+//
+
+#ifndef WBPrefixHeader_pch
+#define WBPrefixHeader_pch
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import "WBCommonHeader.h"
+#import "WBHelper.h"
+#import "UITableViewEmptyHeader.h"
+#import "WBAppDelegate+WBYIDengFaceLog.h"
+#import "NotificationConst.h"
+#import "DefineHeader.h"
+#import "UserInfo.h"
+#import "Masonry.h"
+#import <MJRefresh.h>
+#endif /* WBPrefixHeader_pch */
