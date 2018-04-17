@@ -148,11 +148,13 @@
 
 // MARK: - 下拉刷新绑定方法
 - (void)tableViewDidTriggerHeaderRefresh{
-    
+//    [self.tableView.mj_header beginRefreshing];
+
 }
 // MARK: - 上拉加载绑定方法
 - (void)tableViewDidTriggerFooterRefresh{
-    
+//    [self.tableView.mj_footer beginRefreshing];
+
 }
 // MARK: - 加载结束后，通过参数reload来判断是否需要调用tableView的reloadData，判断isHeader来停止加载
 - (void)tableViewDidFinishTriggerHeader:(BOOL)isHeader reload:(BOOL)reload{
@@ -169,7 +171,6 @@
             [weakSelf.tableView.mj_footer endRefreshing];
         }
     });
-    
 }
 
 

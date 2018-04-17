@@ -277,6 +277,17 @@
 }
 
 
+- (NSString *)wb_trimAllSpecilCharactes{
+    NSCharacterSet *set = [NSCharacterSet characterSetWithCharactersInString:@":"];
+    
+    return  [self stringByTrimmingCharactersInSet:set];
+}
+
+
+- (NSString *)wb_urEncode{
+    return [self stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+}
+
 
 #pragma mark - Private
 /**

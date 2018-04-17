@@ -1,13 +1,14 @@
-platform :ios, '7.0'
+platform :ios, '8.0'
 
 target 'ProjectFramework' do
-# 人脸登录
-pod "SuperID"
 #刷新
-pod 'MJRefresh', '~> 3.1.15.1'
-
-
-
+pod 'MJRefresh'
+# 数据库
+pod 'FMDB'
+# 网络请求
+pod 'AFNetworking'
+pod 'PLMediaStreamingKit'
+pod 'PLPlayerKit'
 
 
 end

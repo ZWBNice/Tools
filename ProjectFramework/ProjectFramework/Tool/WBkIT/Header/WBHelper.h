@@ -24,4 +24,5 @@
 #import "UIView+WB_ViewaddGesture.h"
 #import "UITableViewCell+WB_cellSparator.h"
 #import "UITextField+WB_textFieldFatory.h"
+#import "NSObject+WB_Helper.h"
 #endif /* WBHelper_h */

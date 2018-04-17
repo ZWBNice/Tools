@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 
 typedef enum : NSUInteger {
-    writetoDocumentPath,
-    writetocachesPath,
-    writetoTmpPath,
+    DocumentPath,
+    cachesPath,
+    TmpPath,
 } WBwritetoLocation;
 
 @interface WBFileManager : NSObject
@@ -28,11 +28,25 @@ typedef enum : NSUInteger {
 //  /tmp目录
 @property(nonatomic, strong)  NSString *tmpPath;
 
-// MARK: - 创建文件夹到某个目录下
+// MARK: - 创建文件夹到某个目录下 返回文件夹路径
 - (NSString *)createDirectoryTo:(WBwritetoLocation)location WithdirectoryName:(NSString *)name;
-// MARK: - 创建文件到某个文件夹下
+
+// MARK: - 创建文件到某个文件夹下 返回整体路径
 - (NSString *)createFileTodirectoryPath:(NSString *)directoryPath WithFileName:(NSString *)fileName;
 
-
+// MARK: - 写入文件 传入文件的路径（包含文件名）
 - (void)writeDataTodirectoryPath:(NSString *)directoryPath WithData:(id)data;
+
+// MARK: - 读取文件 传入文件的路径（包含文件名）
+- (id)loadDataWithPath:(NSString *)filePath;
+
+// 判断文件是否存在
+- (BOOL)isSxistAtPath:(NSString *)filePath;
+
+// 计算文件大小
+- (unsigned long long)fileSizeAtPath:(NSString *)filePath;
+
+// 计算整个文件夹中所有文件大小
+- (unsigned long long)folderSizeAtPath:(NSString*)folderPath;
+  
 @end

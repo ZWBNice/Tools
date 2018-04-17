@@ -23,4 +23,18 @@
     return result;
 }
 
++ (NSData *)conversionToDataWithObj:(id)obj{
+    
+    if ([obj isKindOfClass:[NSString class]]) {
+        NSString *str = (NSString *)obj;
+        
+        NSData *data = [str dataUsingEncoding:NSUTF8StringEncoding];
+        return data;
+    }else{
+        NSError *error;
+        NSData *data = [NSJSONSerialization dataWithJSONObject:obj options:0 error:&error];
+        return data;
+    }
+}
+
 @end

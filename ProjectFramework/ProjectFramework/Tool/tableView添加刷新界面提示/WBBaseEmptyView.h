@@ -74,7 +74,4 @@ typedef void (^BtnBlock)();
 + (instancetype)noDataViewWithTarget:(id)target action:(SEL)action;
 
 
-
-
-
 @end

@@ -65,14 +65,12 @@ static const char associatedEmptyViewKey;
 - (void)show{
     [self bringSubviewToFront:self.emptyView];
     self.emptyView.hidden = false;
-    self.mj_header.hidden = true;
     self.mj_footer.hidden = true;
 }
 
 - (void)hide{
     [self insertSubview:self.emptyView atIndex:0];
     self.emptyView.hidden = true;
-    self.mj_header.hidden = false;
     self.mj_footer.hidden = false;
 }
 

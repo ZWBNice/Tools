@@ -10,13 +10,12 @@
 #import "WBFourTableViewCell.h"
 #import "UIScrollView+Empty.h"
 #import "WBBaseEmptyView.h"
-
+#import "HttpRequestManager.h"
 @interface WBFourViewController ()
 
 @end
 
 @implementation WBFourViewController
-
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -25,12 +24,11 @@
     self.showRefreshFooter = true;
     self.tableView.emptyView = self.noNetWorkView;
     [self loadDataWithPage:self.page withIsHeader:true];
-    NSLog(@"%@",[[NSBundle mainBundle] bundlePath]);
 
 }
 
 - (void)WBEmptyClick:(UIButton *)btn{
-    
+    [self tableViewDidTriggerHeaderRefresh];
 }
 
 // MARK: - UITableViewDataSource
@@ -63,6 +61,12 @@
     if (isHeader) {
         [self.dataSource removeAllObjects];
     }
+    
+    [[HttpRequestManager sharedInstance] requestWithHttpMethodType:KHttpRequstTypeGet withURL:@"http://rest.test.freshqiao.com/C_ProductTags?&userType=1&channelId=204&enterpriseId=79&v=11&uid=100000652&t=1516865594&k=e63f701f189714df6fdb18b48a2fd90b" withParameters:nil withIsCache:YES withSuccessBlock:^(id response) {
+
+    } WithFailBlock:^(NSError *error) {
+
+    } withdownloadBlock:nil];
     [self.dataSource addObjectsFromArray:@[]];
     [self tableViewDidFinishTriggerHeader:isHeader reload:true];
 }
@@ -76,8 +80,6 @@
     self.page = 0;
     [self loadDataWithPage:self.page withIsHeader:true];
 }
-
-
 
 
 @end

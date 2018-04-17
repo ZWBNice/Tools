@@ -80,6 +80,7 @@
     }
 }
 
+
 - (void)prepare{
     self.autoresizingMask = UIViewAutoresizingFlexibleWidth |  UIViewAutoresizingFlexibleHeight;
     contentWidth = 0;
@@ -257,7 +258,7 @@
 
 + (instancetype)noDataViewWithTarget:(id)target action:(SEL)action{
     
-    return [WBBaseEmptyView createEmptyViewWithImageName:@"empty_yy" titleString:@"122" detailStr:@"1234" btnTitleStr:@"789" target:target action:action];
+    return [WBBaseEmptyView createEmptyViewWithImageName:@"empty_yy" titleString:@"没有网络" detailStr:@"请打开设置检查网络设置" btnTitleStr:@"点击刷新" target:target action:action];
 }
 
 

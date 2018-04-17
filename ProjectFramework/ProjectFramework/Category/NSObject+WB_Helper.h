@@ -27,6 +27,15 @@
  */
 + (NSString *)conversionToStringWith:(id)objc;
 
+/**
+ *  对象转成NSData
+ *
+ *  @param objc 要转的对象
+ *
+ *  @return data
+ */
+
++ (NSData *)conversionToDataWithObj:(NSObject *)obj;
 
 
 

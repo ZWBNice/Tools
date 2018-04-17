@@ -9,53 +9,50 @@
 #import "WBFileManager.h"
 
 @implementation WBFileManager
+{
+    NSFileManager *_fileManager;
+}
+
+- (instancetype)init{
+    if (self = [super init]) {
+        _fileManager = [NSFileManager defaultManager];
+    }
+    return self;
+}
 
 // MARK: - getter && setter
 
 - (NSString *)rootHomePath{
-    if (!_rootHomePath) {
         _rootHomePath = NSHomeDirectory();
-    }
     return _rootHomePath;
 }
 
 - (NSString *)tmpPath{
-    if (!_tmpPath) {
         _tmpPath = NSTemporaryDirectory();
-    }
     return _tmpPath;
 }
 
 - (NSString *)libraryPath{
-    if (!_libraryPath) {
         NSArray * paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
-
         _libraryPath = [paths lastObject];
-    }
     return _libraryPath;
 }
 
 - (NSString *)documentPath{
-    if (!_documentPath) {
         NSArray * paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         _documentPath = [paths lastObject];
-    }
     return _documentPath;
 }
 
 - (NSString *)cachesPath{
-    if (!_cachesPath) {
         NSArray * paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
         _cachesPath = [paths lastObject];
-    }
     return _cachesPath;
 }
 
 - (NSString *)preferencesPath{
-    if (!_preferencesPath) {
         NSArray * paths = NSSearchPathForDirectoriesInDomains(NSPreferencePanesDirectory, NSUserDomainMask, YES);
         _preferencesPath = [paths lastObject];
-    }
     return _preferencesPath;
 }
 
@@ -64,21 +61,20 @@
 - (NSString *)createDirectoryTo:(WBwritetoLocation)location WithdirectoryName:(NSString *)name {
     NSString * directoryPath;
     switch (location) {
-        case writetoDocumentPath:
+        case DocumentPath:
             directoryPath = self.documentPath;
             break;
-        case writetocachesPath:
+        case cachesPath:
             directoryPath = self.cachesPath;
             break;
-        case writetoTmpPath:
+        case TmpPath:
             directoryPath = self.tmpPath;
             break;
         default:
             break;
     }
-    NSFileManager *fileManager = [NSFileManager defaultManager];
     NSString *pathName = [directoryPath stringByAppendingPathComponent:name];
-    BOOL isSuccess = [fileManager createDirectoryAtPath:pathName withIntermediateDirectories:YES attributes:nil error:nil];
+    BOOL isSuccess = [_fileManager createDirectoryAtPath:pathName withIntermediateDirectories:YES attributes:nil error:nil];
     if (isSuccess) {
         NSLog(@"success");
         return pathName;
@@ -90,9 +86,9 @@
 
 // 创建文件
 - (NSString *)createFileTodirectoryPath:(NSString *)directoryPath WithFileName:(NSString *)fileName {
-    NSFileManager *fileManager = [NSFileManager defaultManager];
     NSString *path = [directoryPath stringByAppendingPathComponent:fileName];
-    BOOL isSuccess = [fileManager createFileAtPath:path contents:nil attributes:nil];
+    
+    BOOL isSuccess = [_fileManager createFileAtPath:path contents:nil attributes:nil];
     if (isSuccess) {
         return path;
     } else {
@@ -102,17 +98,27 @@
 }
 
 // 写入文件
-- (void)writeDataTodirectoryPath:(NSString *)directoryPath WithData:(id)data {
-//    NSArray *arr = [NSArray array];
-//    NSDictionary *dic = [NSDictionary dictionary];
-    
-    BOOL isSuccess =[data writeToFile:directoryPath atomically:YES];
+- (void)writeDataTodirectoryPath:(NSString *)directoryPath WithData:(NSObject*)data {
+    BOOL isSuccess = [_fileManager createFileAtPath:directoryPath contents:[NSObject conversionToDataWithObj:data] attributes:nil];
     if (isSuccess) {
         NSLog(@"write success");
     } else {
         NSLog(@"write fail");
     }
 }
+
+
+- (id)loadDataWithPath:(NSString *)filePath{
+    NSError *error;
+    NSData *data = [NSData dataWithContentsOfFile:filePath];
+    if (data) {
+        id obj = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+        return obj;
+    }
+    return nil;
+}
+
+
 
 //// 读取文件
 //- (void)readFile {
@@ -131,10 +137,9 @@
 
 // 计算文件大小
 - (unsigned long long)fileSizeAtPath:(NSString *)filePath {
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    BOOL isExist = [fileManager fileExistsAtPath:filePath];
+    BOOL isExist = [_fileManager fileExistsAtPath:filePath];
     if (isExist) {
-        unsigned long long fileSize = [[fileManager attributesOfItemAtPath:filePath error:nil] fileSize];
+        unsigned long long fileSize = [[_fileManager attributesOfItemAtPath:filePath error:nil] fileSize];
         return fileSize;
     } else {
         NSLog(@"file is not exist");
@@ -144,10 +149,9 @@
 
 // 计算整个文件夹中所有文件大小
 - (unsigned long long)folderSizeAtPath:(NSString*)folderPath {
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    BOOL isExist = [fileManager fileExistsAtPath:folderPath];
+    BOOL isExist = [_fileManager fileExistsAtPath:folderPath];
     if (isExist) {
-        NSEnumerator *childFileEnumerator = [[fileManager subpathsAtPath:folderPath] objectEnumerator];
+        NSEnumerator *childFileEnumerator = [[_fileManager subpathsAtPath:folderPath] objectEnumerator];
         unsigned long long folderSize = 0;
         NSString *fileName = @"";
         while ((fileName = [childFileEnumerator nextObject]) != nil){
@@ -162,17 +166,15 @@
 }
 
 //// 删除文件
-//- (void)deleteFile {
-//    NSString *documentsPath =[self getDocumentsPath];
-//    NSFileManager *fileManager = [NSFileManager defaultManager];
-//    NSString *iOSPath = [documentsPath stringByAppendingPathComponent:@"iOS.txt"];
-//    BOOL isSuccess = [fileManager removeItemAtPath:iOSPath error:nil];
-//    if (isSuccess) {
-//        NSLog(@"delete success");
-//    }else{
-//        NSLog(@"delete fail");
-//    }
-//}
+- (void)deleteFileWithfileName:(NSString *)fileName {
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    BOOL isSuccess = [fileManager removeItemAtPath:fileName error:nil];
+    if (isSuccess) {
+        NSLog(@"delete success");
+    }else{
+        NSLog(@"delete fail");
+    }
+}
 //
 //// 移动文件
 //- (void)moveFileName {

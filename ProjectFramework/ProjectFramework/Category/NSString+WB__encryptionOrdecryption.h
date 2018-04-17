@@ -168,6 +168,21 @@
  */
 - (NSString *)wb_trimAllSpace;
 
+/**
+ *  去除特殊字符
+ *
+ *  @return 新的字符串去除所有特殊字符
+ */
+
+- (NSString *)wb_trimAllSpecilCharactes;
+
+/**
+ *  urlcode
+ *
+ *  @return 新的url
+ */
+- (NSString *)wb_urEncode;
+
 
 /**
  *  计算文本高度
